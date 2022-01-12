@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters :
+  EnvType :
+    Description: Environment type.
+    Default: test
+    Type: String
+    AllowedValues:
+        -prod
+        -test
+    AmazonLinuxAMIID:
+      Type: AWS::SSM::Parameter::Value<AWS::EC2::image::id>
+      Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+Conditions:
+  CreateProdResources: !Equals [ !Ref EnvType, prod] #ユーザーがprodを選択した場合CreateProdResourcesになる
+Resources: #Resourcesの設定
+EC2Instance: 
+  Type: "AWS::EC2::Instance" #EC2インスタンスを選択
+  Properties:
+    InstanceType: t2.micro #インスタンスタイプの設定
+    ImageId: !Ref AmazonLinuxAMIID #!RefでAMIIDを取得
+Tags: #Tageの設定
+  - Key: "Name"
+    Value: "Damo Server"
+MountPoint:
+  Type: "AWS::EC2::VolumeAttachment" #実行中のインスタンスにアタッチ
+  Condition: CreateProdResources #CreateProdResourcesの場合のみ追加
+  Properties:
+    InstanceId:
+      !Ref EC2Instance #!RefでEC2InstanceからインスタンスIDを取得
+    VolumeId:
+      !Ref NewVolume #新しいEBSIDを作成
+    Device: /dev/sdh #RootDeviceNameの設定
+NewVolume: #追加のEBSを作成
+  Type: "AWS::EC2::Volume" #EBSを選択
+  Condition: CreateProdResources #CreateProdResourcesの場合のみ追加
+  Properties:
+    Size: 100 #サイズ100
+    AvailabilityZone: !GetAtt EC2Instance.AvailabilityZone  #EC2インスタンスのAZ取得
