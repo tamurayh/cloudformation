@@ -3,37 +3,37 @@ Description:
   VPC and Subnet Create
 
 Metadata: 
-  "AWS::CloudFormation::Interface": 
-    ParameterGroups: 
-      - Label: 
+  "AWS::CloudFormation::Interface": #AWS CloudFormation コンソールに表示される場合の入力パラメーターのグループ化と順序を定義
+    ParameterGroups: #パラメーターグループとそのグループに含めるパラメーターを定義
+      - Label: #パラメーターグループの名前
           default: "Project Name Prefix"
         Parameters: 
           - PJPrefix
       - Label: 
           default: "Network Configuration"
-        Parameters: 
+        Parameters: #グループに含めるパラメーター論理IDのリスト
           - VPCCIDR
           - PublicSubnetACIDR
           - PublicSubnetCCIDR
           - PrivateSubnetACIDR
           - PrivateSubnetCCIDR
-    ParameterLabels: 
+    ParameterLabels: #ラベルは、スタックが作成または更新されるときに、AWS CloudFormationコンソールの[Specify Parameters(パラメータの指定)]ページで表示されるフレンドリ名または説明を定義
       VPCCIDR: 
-        default: "VPC CIDR"
+        default: "VPC CIDR" #10.1.0.0/16(デフォルト)
       PublicSubnetACIDR: 
-        default: "PublicSubnetA CIDR"
+        default: "PublicSubnetA CIDR" #10.1.10.0/24（デフォルト）
       PublicSubnetCCIDR: 
-        default: "PublicSubnetC CIDR"
+        default: "PublicSubnetC CIDR" #10.1.10.0/24（デフォルト）
       PrivateSubnetACIDR: 
-        default: "PrivateSubnetA CIDR"
+        default: "PrivateSubnetA CIDR" #10.1.100.0/24（デフォルト）
       PrivateSubnetCCIDR: 
-        default: "PrivateSubnetC CIDR"
+        default: "PrivateSubnetC CIDR" #10.1.200.0/24（デフォルト）
 
 # ------------------------------------------------------------#
 # Input Parameters
 # ------------------------------------------------------------# 
 Parameters:
-  PJPrefix:
+  PJPrefix: #構築するプロジェクトの環境を識別するために各コンポーネントの先頭に付与する識別子
     Type: String
 
   VPCCIDR:
@@ -56,7 +56,7 @@ Parameters:
     Type: String
     Default: "10.1.200.0/24"
 
-Resources: 
+Resources: #セクションの概要
 # ------------------------------------------------------------#
 #  VPC
 # ------------------------------------------------------------#
@@ -64,13 +64,13 @@ Resources:
   VPC: 
     Type: "AWS::EC2::VPC"
     Properties: 
-      CidrBlock: !Ref VPCCIDR
-      EnableDnsSupport: "true"
-      EnableDnsHostnames: "true"
-      InstanceTenancy: default
+      CidrBlock: !Ref VPCCIDR #!RefでVPCCIDRを取得
+      EnableDnsSupport: "true" #VPC が Amazon 提供の DNS サーバーを介した DNS 解決策をサポート
+      EnableDnsHostnames: "true" #VPC がパブリック IP アドレスを持つインスタンスへのパブリック DNS ホスト名の割り当てをサポート
+      InstanceTenancy: default #インスタンスの起動時に別のテナンシーを明示的に指定しない限り、VPC に起動されたインスタンスは、デフォルトで共有ハードウェア上で実行
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-vpc"
+          Value: !Sub "${PJPrefix}-vpc" #PJPrefixで定めた値
 
 # InternetGateway Create
   InternetGateway: 
