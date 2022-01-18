@@ -32,7 +32,7 @@ Metadata:
 # ------------------------------------------------------------#
 # Input Parameters
 # ------------------------------------------------------------# 
-Parameters:
+Parameters: # 入力パラメータ
   PJPrefix: #構築するプロジェクトの環境を識別するために各コンポーネントの先頭に付与する識別子
     Type: String
 
@@ -61,78 +61,78 @@ Resources: #セクションの概要
 #  VPC
 # ------------------------------------------------------------#
 # VPC Create
-  VPC: 
+  VPC: #VPCの作成
     Type: "AWS::EC2::VPC"
-    Properties: 
+    Properties: # 入力パラメータ
       CidrBlock: !Ref VPCCIDR #!RefでVPCCIDRを取得
       EnableDnsSupport: "true" #VPC が Amazon 提供の DNS サーバーを介した DNS 解決策をサポート
       EnableDnsHostnames: "true" #VPC がパブリック IP アドレスを持つインスタンスへのパブリック DNS ホスト名の割り当てをサポート
       InstanceTenancy: default #インスタンスの起動時に別のテナンシーを明示的に指定しない限り、VPC に起動されたインスタンスは、デフォルトで共有ハードウェア上で実行
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-vpc" #PJPrefixで定めた値
+          Value: !Sub "${PJPrefix}-vpc" #PJPrefixで定めた値+-vpc
 
 # InternetGateway Create
-  InternetGateway: 
-    Type: "AWS::EC2::InternetGateway"
-    Properties: 
+  InternetGateway: #InternetGatewayの作成
+    Type: "AWS::EC2::InternetGateway" 
+    Properties: # 入力パラメータ
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-igw"
+          Value: !Sub "${PJPrefix}-igw" #PJPrefixで定めた値+-igw
 
 # IGW Attach
   InternetGatewayAttachment: 
-    Type: "AWS::EC2::VPCGatewayAttachment"
-    Properties: 
-      InternetGatewayId: !Ref InternetGateway
-      VpcId: !Ref VPC 
+    Type: "AWS::EC2::VPCGatewayAttachment" #インターネットゲートウェイまたは仮想プライベートゲートウェイをVPCに接続し、インターネットとVPC間の接続
+    Properties: # 入力パラメータ
+      InternetGatewayId: !Ref InternetGateway #!RefでInternetGatewayIdを取得
+      VpcId: !Ref VPC #!RefでVPCIdを取得
 
 # ------------------------------------------------------------#
 #  Subnet
 # ------------------------------------------------------------#          
 # Public SubnetA Create
-  PublicSubnetA: 
+  PublicSubnetA: #PublicSubnetAの作成
     Type: "AWS::EC2::Subnet"
-    Properties: 
-      AvailabilityZone: "ap-northeast-1a"
-      CidrBlock: !Ref PublicSubnetACIDR
-      VpcId: !Ref VPC 
+    Properties: # 入力パラメータ
+      AvailabilityZone: "ap-northeast-1a" #AZの選択
+      CidrBlock: !Ref PublicSubnetACIDR #!RefでPublicSubnetACIDRの値を取得
+      VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-public-subnet-a"
+          Value: !Sub "${PJPrefix}-public-subnet-a" #PJPrefixで定めた値+-public-subnet-a
 
 # Public SubnetC Create
-  PublicSubnetC: 
+  PublicSubnetC: #PublicSubnetBの作成
     Type: "AWS::EC2::Subnet"
     Properties: 
-      AvailabilityZone: "ap-northeast-1c"
-      CidrBlock: !Ref PublicSubnetCCIDR
-      VpcId: !Ref VPC 
+      AvailabilityZone: "ap-northeast-1c" #AZの選択
+      CidrBlock: !Ref PublicSubnetCCIDR #!RefでPublicSubnetCCIDRの値を取得
+      VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-public-subnet-c"
+          Value: !Sub "${PJPrefix}-public-subnet-c" #PJPrefixで定めた値+-public-subnet-c
 
 # Private SubnetA Create
-  PrivateSubnetA: 
-    Type: "AWS::EC2::Subnet"
-    Properties: 
-      AvailabilityZone: "ap-northeast-1a"
-      CidrBlock: !Ref PrivateSubnetACIDR
-      VpcId: !Ref VPC 
+  PrivateSubnetA: #PrivateSubnetAの作成
+    Type: "AWS::EC2::Subnet" 
+    Properties: # 入力パラメータ
+      AvailabilityZone: "ap-northeast-1a" #AZの選択
+      CidrBlock: !Ref PrivateSubnetACIDR #!RefでPrivateSubnetACIDRの値を取得
+      VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-private-subnet-a"
+          Value: !Sub "${PJPrefix}-private-subnet-a" #PJPrefixで定めた値+-private-subnet-a
 
 # Private SubnetC Create
-  PrivateSubnetC: 
-    Type: "AWS::EC2::Subnet"
-    Properties: 
-      AvailabilityZone: "ap-northeast-1c"
-      CidrBlock: !Ref PrivateSubnetCCIDR
-      VpcId: !Ref VPC 
+  PrivateSubnetC: #PrivateSubnetCの作成
+    Type: "AWS::EC2::Subnet" 
+    Properties: # 入力パラメータ
+      AvailabilityZone: "ap-northeast-1c" #AZの選択
+      CidrBlock: !Ref PrivateSubnetCCIDR #!RefでPublicSubnetCCIDRの値を取得
+      VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-private-subnet-c"
+          Value: !Sub "${PJPrefix}-private-subnet-c" #PJPrefixで定めた値+-private-subnet-c
 
 # ------------------------------------------------------------#
 #  RouteTable
