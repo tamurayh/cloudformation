@@ -140,7 +140,7 @@ Resources: #セクションの概要
 # Public RouteTableA Create
   PublicRouteTableA: #PublicRouteTableAの作成
     Type: "AWS::EC2::RouteTable"
-    Properties: 
+    Properties: # 入力パラメータ
       VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
@@ -149,7 +149,7 @@ Resources: #セクションの概要
 # Public RouteTableC Create
   PublicRouteTableC: #PublicRouteTableCの作成
     Type: "AWS::EC2::RouteTable"
-    Properties: 
+    Properties: # 入力パラメータ
       VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
@@ -158,7 +158,7 @@ Resources: #セクションの概要
 # Private RouteTableA Create
   PrivateRouteTableA: #PrivateRouteTableAの作成
     Type: "AWS::EC2::RouteTable"
-    Properties: 
+    Properties: # 入力パラメータ
       VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
@@ -167,30 +167,30 @@ Resources: #セクションの概要
 # Private RouteTableC Create
   PrivateRouteTableC: #PrivateRouteTableCの作成
     Type: "AWS::EC2::RouteTable"
-    Properties: 
+    Properties: # 入力パラメータ
       VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
           Value: !Sub "${PJPrefix}-private-route-c" #PJPrefixで定めた値+-private-route-c
 
 # ------------------------------------------------------------#
-# Routing
+# Routing (VPC内のルートテーブル内のルートを指定)
 # ------------------------------------------------------------# 
 # PublicRouteA Create
-  PublicRouteA: 
+  PublicRouteA: #PublicRouteACの作成
     Type: "AWS::EC2::Route"
-    Properties: 
-      RouteTableId: !Ref PublicRouteTableA 
-      DestinationCidrBlock: "0.0.0.0/0"
-      GatewayId: !Ref InternetGateway 
+    Properties: # 入力パラメータ
+      RouteTableId: !Ref PublicRouteTableA #!RefでPublicRouteTableAの値を取得
+      DestinationCidrBlock: "0.0.0.0/0" #送信元アドレスの設定
+      GatewayId: !Ref InternetGateway #!RefでInternetGatewayの値を取得
 
 # PublicRouteC Create
   PublicRouteC: 
     Type: "AWS::EC2::Route"
-    Properties: 
-      RouteTableId: !Ref PublicRouteTableC 
-      DestinationCidrBlock: "0.0.0.0/0"
-      GatewayId: !Ref InternetGateway 
+    Properties: # 入力パラメータ
+      RouteTableId: !Ref PublicRouteTableC #!RefでPublicRouteTableCの値を取得
+      DestinationCidrBlock: "0.0.0.0/0" #送信元アドレスの設定
+      GatewayId: !Ref InternetGateway #!RefでInternetGatewayの値を取得
 
 # ------------------------------------------------------------#
 # RouteTable Associate
@@ -198,104 +198,104 @@ Resources: #セクションの概要
 # PublicRouteTable Associate SubnetA
   PublicSubnetARouteTableAssociation: 
     Type: "AWS::EC2::SubnetRouteTableAssociation"
-    Properties: 
-      SubnetId: !Ref PublicSubnetA 
-      RouteTableId: !Ref PublicRouteTableA
+    Properties: # 入力パラメータ
+      SubnetId: !Ref PublicSubnetA #!RefでPublicSubnetAの値を取得
+      RouteTableId: !Ref PublicRouteTableA #!RefでPublicRouteTableAの値を取得
 
 # PublicRouteTable Associate SubnetC
   PublicSubnetCRouteTableAssociation: 
     Type: "AWS::EC2::SubnetRouteTableAssociation"
-    Properties: 
-      SubnetId: !Ref PublicSubnetC 
-      RouteTableId: !Ref PublicRouteTableC
+    Properties: # 入力パラメータ
+      SubnetId: !Ref PublicSubnetC #!RefでPublicSubnetCの値を取得
+      RouteTableId: !Ref PublicRouteTableC #!RefでPublicRouteTableCの値を取得
 
 # PrivateRouteTable Associate SubnetA
   PrivateSubnetARouteTableAssociation: 
     Type: "AWS::EC2::SubnetRouteTableAssociation"
-    Properties: 
-      SubnetId: !Ref PrivateSubnetA
-      RouteTableId: !Ref PrivateRouteTableA 
+    Properties: # 入力パラメータ
+      SubnetId: !Ref PrivateSubnetA #!RefでPrivateSubnetAの値を取得
+      RouteTableId: !Ref PrivateRouteTableA #!RefでPrivateRouteTableAの値を取得
 
 # PrivateRouteTable Associate SubnetC
   PrivateSubnetCRouteTableAssociation: 
     Type: "AWS::EC2::SubnetRouteTableAssociation"
-    Properties: 
-      SubnetId: !Ref PrivateSubnetC
-      RouteTableId: !Ref PrivateRouteTableC
+    Properties: # 入力パラメータ
+      SubnetId: !Ref PrivateSubnetC #!RefでPrivateSubnetCの値を取得
+      RouteTableId: !Ref PrivateRouteTableC #!RefでPrivateRouteTableCの値を取得
 
 # ------------------------------------------------------------#
 # Output Parameters
 # ------------------------------------------------------------#                
-Outputs:
+Outputs: #出力
 # VPC
   VPC:
-    Value: !Ref VPC
+    Value: !Ref VPC #!RefでVPCを取得
     Export:
-      Name: !Sub "${PJPrefix}-vpc"
+      Name: !Sub "${PJPrefix}-vpc" #PJPrefixで定めた値+-vpc
 
   VPCCIDR:
-    Value: !Ref VPCCIDR
+    Value: !Ref VPCCIDR #!RefでVPCCIDRを取得
     Export:
-      Name: !Sub "${PJPrefix}-vpc-cidr"
+      Name: !Sub "${PJPrefix}-vpc-cidr" #PJPrefixで定めた値+-vpc-cidr
 
 # Subnet
   PublicSubnetA:
-    Value: !Ref PublicSubnetA
+    Value: !Ref PublicSubnetA #!RefでPublicSubnetAを取得
     Export:
-      Name: !Sub "${PJPrefix}-public-subnet-a"
+      Name: !Sub "${PJPrefix}-public-subnet-a" #PJPrefixで定めた値+-public-subnet-a
 
   PublicSubnetACIDR:
-    Value: !Ref PublicSubnetACIDR
+    Value: !Ref PublicSubnetACIDR #!RefでPublicSubnetACIDRを取得
     Export:
-      Name: !Sub "${PJPrefix}-public-subnet-a-cidr"
+      Name: !Sub "${PJPrefix}-public-subnet-a-cidr" #PJPrefixで定めた値+-public-subnet-a-cidr
 
   PublicSubnetC:
-    Value: !Ref PublicSubnetC
+    Value: !Ref PublicSubnetC #!RefでPublicSubnetCを取得
     Export:
-      Name: !Sub "${PJPrefix}-public-subnet-c"
+      Name: !Sub "${PJPrefix}-public-subnet-c" #PJPrefixで定めた値+-public-subnet-c
 
   PublicSubnetCCIDR:
-    Value: !Ref PublicSubnetCCIDR
+    Value: !Ref PublicSubnetCCIDR #!RefでPublicSubnetCCIDRを取得
     Export:
-      Name: !Sub "${PJPrefix}-public-subnet-c-cidr"
+      Name: !Sub "${PJPrefix}-public-subnet-c-cidr" #PJPrefixで定めた値+-public-subnet-c-cidr
 
   PrivateSubnetA:
-    Value: !Ref PrivateSubnetA
+    Value: !Ref PrivateSubnetA #!RefでPrivateSubnetAを取得
     Export:
-      Name: !Sub "${PJPrefix}-private-subnet-a"
+      Name: !Sub "${PJPrefix}-private-subnet-a" #PJPrefixで定めた値+-private-subnet-a
 
   PrivateSubnetACIDR:
-    Value: !Ref PrivateSubnetACIDR
+    Value: !Ref PrivateSubnetACIDR #!RefでPrivateSubnetACIDRを取得
     Export:
-      Name: !Sub "${PJPrefix}-private-subnet-a-cidr"
+      Name: !Sub "${PJPrefix}-private-subnet-a-cidr" #PJPrefixで定めた値+-private-subnet-a-cidr
 
   PrivateSubnetC:
-    Value: !Ref PrivateSubnetC
+    Value: !Ref PrivateSubnetC #!RefでPrivateSubnetCを取得
     Export:
-      Name: !Sub "${PJPrefix}-private-subnet-c"
+      Name: !Sub "${PJPrefix}-private-subnet-c" #PJPrefixで定めた値+-private-subnet-c
 
   PrivateSubnetCCIDR:
-    Value: !Ref PrivateSubnetCCIDR
+    Value: !Ref PrivateSubnetCCIDR #!RefでPrivateSubnetCCIDRを取得
     Export:
-      Name: !Sub "${PJPrefix}-private-subnet-c-cidr"
+      Name: !Sub "${PJPrefix}-private-subnet-c-cidr" #PJPrefixで定めた値+-private-subnet-c-cidr
 
 # Route
   PublicRouteTableA:
-    Value: !Ref PublicRouteTableA
+    Value: !Ref PublicRouteTableA #!RefでPublicRouteTableAを取得
     Export:
-      Name: !Sub "${PJPrefix}-public-route-a"
+      Name: !Sub "${PJPrefix}-public-route-a" #PJPrefixで定めた値+-public-route-a
 
   PublicRouteTableC:
-    Value: !Ref PublicRouteTableC
+    Value: !Ref PublicRouteTableC #!RefでPublicRouteTableCを取得
     Export:
-      Name: !Sub "${PJPrefix}-public-route-c"
+      Name: !Sub "${PJPrefix}-public-route-c" #PJPrefixで定めた値+-public-route-c
 
   PrivateRouteTableA:
-    Value: !Ref PrivateRouteTableA
+    Value: !Ref PrivateRouteTableA #!RefでPrivateRouteTableAを取得
     Export:
-      Name: !Sub "${PJPrefix}-private-route-a"
+      Name: !Sub "${PJPrefix}-private-route-a" #PJPrefixで定めた値+-private-route-a
 
   PrivateRouteTableC:
-    Value: !Ref PrivateRouteTableC
+    Value: !Ref PrivateRouteTableC #!RefでPrivateRouteTableCを取得
     Export:
-      Name: !Sub "${PJPrefix}-private-route-c"
+      Name: !Sub "${PJPrefix}-private-route-c" #PJPrefixで定めた値+-private-route-c
