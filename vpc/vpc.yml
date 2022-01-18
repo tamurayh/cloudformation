@@ -138,40 +138,40 @@ Resources: #セクションの概要
 #  RouteTable
 # ------------------------------------------------------------#          
 # Public RouteTableA Create
-  PublicRouteTableA: 
+  PublicRouteTableA: #PublicRouteTableAの作成
     Type: "AWS::EC2::RouteTable"
     Properties: 
-      VpcId: !Ref VPC 
+      VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-public-route-a"
+          Value: !Sub "${PJPrefix}-public-route-a" #PJPrefixで定めた値+-public-route-a
 
 # Public RouteTableC Create
-  PublicRouteTableC: 
+  PublicRouteTableC: #PublicRouteTableCの作成
     Type: "AWS::EC2::RouteTable"
     Properties: 
-      VpcId: !Ref VPC 
+      VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-public-route-c"
+          Value: !Sub "${PJPrefix}-public-route-c" #PJPrefixで定めた値+-public-route-c
 
 # Private RouteTableA Create
-  PrivateRouteTableA: 
+  PrivateRouteTableA: #PrivateRouteTableAの作成
     Type: "AWS::EC2::RouteTable"
     Properties: 
-      VpcId: !Ref VPC 
+      VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-private-route-a"
+          Value: !Sub "${PJPrefix}-private-route-a" #PJPrefixで定めた値+-private-route-a
 
 # Private RouteTableC Create
-  PrivateRouteTableC: 
+  PrivateRouteTableC: #PrivateRouteTableCの作成
     Type: "AWS::EC2::RouteTable"
     Properties: 
-      VpcId: !Ref VPC 
+      VpcId: !Ref VPC #!RefでVPCIdを取得
       Tags: 
         - Key: Name
-          Value: !Sub "${PJPrefix}-private-route-c"
+          Value: !Sub "${PJPrefix}-private-route-c" #PJPrefixで定めた値+-private-route-c
 
 # ------------------------------------------------------------#
 # Routing
