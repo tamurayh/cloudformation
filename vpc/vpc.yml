@@ -17,6 +17,7 @@ Metadata:
           - PublicSubnetCCIDR
           - PrivateSubnetACIDR
           - PrivateSubnetCCIDR
+          
     ParameterLabels: #ラベルは、スタックが作成または更新されるときに、AWS CloudFormationコンソールの[Specify Parameters(パラメータの指定)]ページで表示されるフレンドリ名または説明を定義
       VPCCIDR: 
         default: "VPC CIDR" #10.1.0.0/16(デフォルト)
