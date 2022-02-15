@@ -1,20 +1,22 @@
-Resources:
+AWSTemplateFormatVersion: "2010-09-09"
+
+Resources: #リージョン
   DDBT10HT3:
     Type: 'AWS::DynamoDB::Table'
-    Properties:
-      TableName: Music
-      AttributeDefinitions:
+    Properties: #プロパティ
+      TableName: Music #テーブルの名前
+      AttributeDefinitions: # キースキーマ属性のデータ型
+        - AttributeName: Artist #属性の名前 Artist
+          AttributeType: S #属性タイプ(String) 
+        - AttributeName: SongTitle #属性の名前 SongTitle
+          AttributeType: S #属性タイプ(String)
+        - AttributeName: AlbumTitle #属性の名前 AlbumTitle
+          AttributeType: S #属性タイプ(String)
+      KeySchema: #プライマリキーに使用される属性
         - AttributeName: Artist
-          AttributeType: S
+          KeyType: HASH #ハッシュの定義
         - AttributeName: SongTitle
-          AttributeType: S
-        - AttributeName: AlbumTitle
-          AttributeType: S
-      KeySchema:
-        - AttributeName: Artist
-          KeyType: HASH
-        - AttributeName: SongTitle
-          KeyType: RANGE
+          KeyType: RANGE #レンジの定義
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
