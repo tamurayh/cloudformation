@@ -17,15 +17,15 @@ Resources: #リージョン
           KeyType: HASH #ハッシュの定義
         - AttributeName: SongTitle
           KeyType: RANGE #レンジの定義
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
-      LocalSecondaryIndexes:
-        - IndexName: AlbumTitleIndex
+      ProvisionedThroughput: #スループットの設定
+        ReadCapacityUnits: 1 #一秒ごとに何回 読み込むか
+        WriteCapacityUnits: 1 #一秒ごと何回 書き込めるか
+      LocalSecondaryIndexes: #ローカルインデックスの設定
+        - IndexName: AlbumTitleIndex #インデックスの名前を設定
           KeySchema:
-            - AttributeName: Artist
-              KeyType: HASH
+            - AttributeName: Artist #対象の名前の設定
+              KeyType: HASH 
             - AttributeName: AlbumTitle
               KeyType: RANGE
-          Projection:
-            ProjectionType: KEYS_ONLY
+          Projection: #テーブルからインデックスにコピー (投影) される属性
+            ProjectionType: KEYS_ONLY #インデックスに指定したキー情報のみ射影されます
